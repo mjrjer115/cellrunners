@@ -36,6 +36,16 @@ int player::getMeter()
     return meter;
 };
 
+void player::giveRandomNumber(int r)
+{
+    randomNumber = r;
+}
+
+int player::getRandomNumber()
+{
+    return randomNumber;
+}
+
 player player::operator=(player A)
 {
     this -> hitpoints = A.hitpoints;

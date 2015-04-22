@@ -1,4 +1,6 @@
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 #include "player.h"
 #include "game.h"
 using namespace std;
@@ -15,6 +17,9 @@ game::game(player A,player B)
 
 void game::duel(int moveA, int moveB)
     {
+        this -> playerA.giveRandomNumber(rand()%100);     // assign private random numbers to players 0 to 99
+        this -> playerB.giveRandomNumber(rand()%100);
+
         if(moveB == CHARGE)
             this -> playerB.chargeGain();
         if(moveA == CHARGE)
@@ -118,6 +123,7 @@ int game::input(player A)
 
 void game::run()
 {
+    srand(time(NULL));
     int moveA, moveB;
     int ROUND = 1;
     string moves[4]={"Charge","Attack","Block","Special"};

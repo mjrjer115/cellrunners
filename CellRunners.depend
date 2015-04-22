@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1429742841 source:c:\users\jerome\downloads\gamemakerprojects\cellrunners\cellrunners\game.cpp
+	<iostream>
+	<ctime>
+	<cstdlib>
+	"player.h"
+	"game.h"
+
+1429742494 c:\users\jerome\downloads\gamemakerprojects\cellrunners\cellrunners\player.h
+	<iostream>
+
+1429719933 c:\users\jerome\downloads\gamemakerprojects\cellrunners\cellrunners\game.h
+	<iostream>
+	"player.h"
+
+1429722008 source:c:\users\jerome\downloads\gamemakerprojects\cellrunners\cellrunners\main.cpp
+	"player.h"
+	"game.h"
+	<ctime>
+	<iostream>
+	<cstdlib>
+
+1429742495 source:c:\users\jerome\downloads\gamemakerprojects\cellrunners\cellrunners\player.cpp
+	"player.h"
+

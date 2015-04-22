@@ -1,7 +1,9 @@
 //#include "CellRunners.h"
 #include "player.h"
 #include "game.h"
+#include <ctime>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 int main()
 {
