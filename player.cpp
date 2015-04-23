@@ -73,9 +73,9 @@ int player::getStat(int index)
     return stats[index];
 }
 
-void player::setIntelligence(int intelligence)   //test
+void player::setStat(int Stat, int index)   //test
 {
-    stats[INL] = intelligence;
+    stats[index] = Stat;
 //  cout << "Entelligence: " << stats[INL] << endl;
 }
 
@@ -85,7 +85,7 @@ bool player::roll(int r, int index)
 //  cout << "Intelligence: " << stats[INL] << endl;
     if (r <= 50 + (stats[index] - 1) * 25 && stats[index] != 0)
     {
-        chargeGain();
+        // chargeGain();
         return true;
     }
     return false;

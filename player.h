@@ -19,7 +19,7 @@ class player
         void healthLoss(int hp = 1);
         bool roll(int r, int index);
 //        void giveRandomNumber(int r = 50);
-        void setIntelligence(int x = 0);    // test
+        void setStat(int x, int index);    // test
         int getHealth();
         int getMeter();
 //        int getRandomNumber();
