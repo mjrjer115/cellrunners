@@ -6,7 +6,7 @@
 using namespace std;
 
 
-
+enum {STR, DEF, INL, WIS, SPD};
 enum {CHARGE, ATTACK, BLOCK, SPECIAL};
 
 game::game(player A,player B)
@@ -15,16 +15,21 @@ game::game(player A,player B)
     playerB = B;
 };
 
-void game::duel(int moveA, int moveB)
+string game::duel(int moveA, int moveB)
     {
-        this -> playerA.giveRandomNumber(rand()%100);     // assign private random numbers to players 0 to 99
-        this -> playerB.giveRandomNumber(rand()%100);
+//        this -> playerA.giveRandomNumber(rand()%1000);     // assign private random numbers to players 0 to 99
+//        this -> playerB.giveRandomNumber(rand()%1000);
+        string output = "";
 
         if(moveB == CHARGE)
             this -> playerB.chargeGain();
+
         if(moveA == CHARGE)
         {
             this -> playerA.chargeGain();
+
+            if (playerA.rollInt(rand()%1000))
+                output += "Player 1 obtained an extra charge!\n";
 
             if(moveB == SPECIAL)
                 {
@@ -44,9 +49,9 @@ void game::duel(int moveA, int moveB)
 
             if(moveB == ATTACK)
             {
+                this -> playerB.chargeLoss();
                 this -> playerA.healthLoss();
                 this -> playerB.healthLoss();
-                this -> playerB.chargeLoss();
             }
 
             else if(moveB == BLOCK)
@@ -96,7 +101,9 @@ void game::duel(int moveA, int moveB)
             }
             else this -> playerB.healthLoss(2);
         }
+        return output;
     }
+
 
 int game::input(player A)
 {
@@ -120,8 +127,7 @@ int game::input(player A)
     }
 }
 
-
-void game::run()
+void game::run() // loop until someone dies
 {
     srand(time(NULL));
     int moveA, moveB;
@@ -148,10 +154,13 @@ void game::run()
         cout << "Player 2 meter:  " << playerB.getMeter() << endl << endl;
         cout << "Player 2, act" << endl;
         moveB = input(playerB);
-        duel(moveA,moveB);
+        string crit = duel(moveA,moveB);
+        cout << crit << endl;
+
         cout << endl << endl << "OUTCOME OF ROUND " << ROUND << ":" << endl << endl;
         cout << "Player 1 action: " << moves[moveA] << endl;
         cout << "Player 2 action: " << moves[moveB] << endl << endl;
+
         cout << "Player 1 health: " << playerA.getHealth() << endl;
         cout << "Player 1 meter:  " << playerA.getMeter() << endl;
         cout << "Player 2 health: " << playerB.getHealth() << endl;

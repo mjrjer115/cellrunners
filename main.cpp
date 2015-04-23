@@ -9,6 +9,8 @@ int main()
 {
     player A(3,1);
     player B(3,1);
+    A.setIntelligence(0);
+    cout << A.getStat(2);
 //  cout << "player A hp " << A.getHealth() << endl;
 //  cout << "player B hp " << B.getHealth() << endl;
 //  cout << "player A meter " << A.getMeter() << endl;
