@@ -8,6 +8,7 @@ class player
         int hitpoints;
         int meter;
         int randomNumber;
+        int stats[5];
     public:
         player();
         player(int, int);
@@ -18,6 +19,7 @@ class player
         int getHealth();
         int getMeter();
         int getRandomNumber();
+        int getStat(int index);
         player operator=(player A);
 };
 
