@@ -17,7 +17,6 @@ game::game(player A,player B)
 
 string game::duel(int moveA, int moveB)
     {
-/* this stuff is a work in progress, probably will be removed
 //        this -> playerA.giveRandomNumber(rand()%1000);     // assign private random numbers to players 0 to 99
 //        this -> playerB.giveRandomNumber(rand()%1000);
         string output = "";
@@ -36,7 +35,7 @@ string game::duel(int moveA, int moveB)
             this -> playerA.chargeGain();
             if (playerA.roll(rand()%1000,INL))
             {
-                playerB.chargeGain();
+                playerA.chargeGain();
                 output += "Player 1 obtained an extra charge!\n";
             }
             if(moveB == SPECIAL)
@@ -46,18 +45,17 @@ string game::duel(int moveA, int moveB)
                 }
             if(moveB == ATTACK)
                 {
-                    this -> playerA.healthLoss();
                     this -> playerB.chargeLoss();
                     if (playerB.roll(rand()%1000,STR))
                     {
-                        output += "Player 2 rolled for a critical hit...\n";
-                        if (playerA.roll(rand()%1000,DEF)) output += "... but Player 1 deflected it!\n";
-                        else
-                        {
-                            output+= "...and it landed!\n";
-                            playerA.healthLoss();
-                        }
+                        output += "Player 2 landed a critical hit!\n";
+                        playerA.healthLoss(2);
                     }
+                    else if (playerA.roll(rand()%1000,DEF))
+                    {
+                        output += "Player 1 deflected Player 2's attack!\n";
+                    }
+                    else playerA.healthLoss();
                 }
         }
         else if(moveA == ATTACK)
@@ -96,6 +94,11 @@ string game::duel(int moveA, int moveB)
             {
                 this -> playerB.healthLoss();
                 this -> playerB.chargeLoss(3);
+            }
+            else if(playerA.roll(rand()%1000,STR))
+            {
+                output += "Player 1 landed a critical hit!\n";
+                playerB.healthLoss(2);
             }
             else if(playerB.roll(rand()%1000,DEF))
             {
@@ -146,86 +149,7 @@ string game::duel(int moveA, int moveB)
             else this -> playerB.healthLoss(2);
         }
         return output;
-        */
-        string output = "";
-        if(moveB == CHARGE)
-            this -> playerB.chargeGain();
-        if(moveA == CHARGE)
-        {
-            this -> playerA.chargeGain();
-            if(moveB == SPECIAL)
-                {
-                    this -> playerA.healthLoss(2);
-                    this -> playerB.chargeLoss(3);
-                }
-            if(moveB == ATTACK)
-                {
-                    this -> playerA.healthLoss();
-                    this -> playerB.chargeLoss();
-                }
-        }
-
-        else if(moveA == ATTACK)
-        {
-            this -> playerA.chargeLoss();
-
-            if(moveB == ATTACK)
-            {
-                this -> playerA.healthLoss();
-                this -> playerB.healthLoss();
-                this -> playerB.chargeLoss();
-            }
-
-            else if(moveB == BLOCK)
-            this -> playerB.chargeGain();
-
-            else if(moveB == SPECIAL)
-            {
-                this -> playerB.healthLoss();
-                this -> playerB.chargeLoss(3);
-            }
-            else this -> playerB.healthLoss();
-        }
-
-        else if(moveA == BLOCK)
-        {
-            if(moveB == ATTACK)
-            {
-                this -> playerA.chargeGain();
-                this -> playerB.chargeLoss();
-            }
-            else if (moveB == SPECIAL)
-            {
-                this -> playerA.healthLoss();
-                this -> playerB.chargeLoss(3);
-            }
-        }
-        else if(moveA == SPECIAL)
-        {
-            this -> playerA.chargeLoss(3);
-
-            if(moveB == ATTACK)
-            {
-                this -> playerA.healthLoss();
-                this -> playerB.chargeLoss();
-            }
-
-            else if(moveB == BLOCK)
-            {
-                this -> playerB.healthLoss();
-            }
-
-            else if(moveB == SPECIAL)
-            {
-                this -> playerA.healthLoss(2);
-                this -> playerB.healthLoss(2);
-                this -> playerB.chargeLoss(3);
-            }
-            else this -> playerB.healthLoss(2);
-        }
-        return output;
     }
-
 
 int game::input(player A)
 {
