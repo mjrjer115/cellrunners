@@ -17,7 +17,7 @@ class player
         void chargeGain(int k = 1);
         void chargeLoss(int i = 1);
         void healthLoss(int hp = 1);
-        bool rollInt(int r);
+        bool roll(int r, int index);
 //        void giveRandomNumber(int r = 50);
         void setIntelligence(int x = 0);    // test
         int getHealth();

@@ -23,12 +23,14 @@ string game::duel(int moveA, int moveB)
 
         if(moveB == CHARGE)
             this -> playerB.chargeGain();
+            if (playerB.roll(rand()%1000,INL))
+                output += "Player 2 obtained an extra charge!\n";
 
         if(moveA == CHARGE)
         {
             this -> playerA.chargeGain();
 
-            if (playerA.rollInt(rand()%1000))
+            if (playerA.roll(rand()%1000,INL))
                 output += "Player 1 obtained an extra charge!\n";
 
             if(moveB == SPECIAL)
@@ -155,7 +157,7 @@ void game::run() // loop until someone dies
         cout << "Player 2, act" << endl;
         moveB = input(playerB);
         string crit = duel(moveA,moveB);
-        cout << crit << endl;
+        cout << endl << crit << endl;
 
         cout << endl << endl << "OUTCOME OF ROUND " << ROUND << ":" << endl << endl;
         cout << "Player 1 action: " << moves[moveA] << endl;

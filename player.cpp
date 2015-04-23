@@ -61,6 +61,10 @@ player player::operator=(player A)
 {
     this -> hitpoints = A.hitpoints;
     this -> meter = A.meter;
+    for(int i = 0; i < NUM_STATS; i++)
+    {
+        stats[i]=A.stats[i];
+    }
     return *this;
 };
 
@@ -72,11 +76,14 @@ int player::getStat(int index)
 void player::setIntelligence(int intelligence)   //test
 {
     stats[INL] = intelligence;
+//  cout << "Entelligence: " << stats[INL] << endl;
 }
 
-bool player::rollInt(int r)
+bool player::roll(int r, int index)
 {
-    if (r <= 50 + (stats[INL] - 1) * 25)
+//  cout << "Random Number: " << r << endl;
+//  cout << "Intelligence: " << stats[INL] << endl;
+    if (r <= 50 + (stats[index] - 1) * 25 && stats[index] != 0)
     {
         chargeGain();
         return true;
