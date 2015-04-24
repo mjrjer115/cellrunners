@@ -24,7 +24,7 @@ player::player(int hp, int m)
 
 void player::chargeGain(int k)
 {
-    if (meter < 3) meter += k;
+    if (meter < 5) meter += k;
 };
 
 void player::chargeLoss(int i)
