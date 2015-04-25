@@ -41,7 +41,8 @@ string game::duel(int moveA, int moveB)
             if(moveB == SPECIAL)
                 {
                     this -> playerA.healthLoss(2);
-                    this -> playerB.chargeLoss(3);
+                    this -> playerB.chargeLoss(2);
+                    this -> playerA.chargeLoss();
                 }
             if(moveB == ATTACK)
                 {
@@ -93,7 +94,7 @@ string game::duel(int moveA, int moveB)
             else if(moveB == SPECIAL)
             {
                 this -> playerB.healthLoss();
-                this -> playerB.chargeLoss(3);
+                this -> playerB.chargeLoss(2);
             }
             else if(playerA.roll(rand()%1000,STR))
             {
@@ -122,12 +123,12 @@ string game::duel(int moveA, int moveB)
             else if (moveB == SPECIAL)
             {
                 this -> playerA.healthLoss();
-                this -> playerB.chargeLoss(3);
+                this -> playerB.chargeLoss(2);
             }
         }
         else if(moveA == SPECIAL)
         {
-            this -> playerA.chargeLoss(3);
+            this -> playerA.chargeLoss(2);
 
             if(moveB == ATTACK)
             {
@@ -144,9 +145,13 @@ string game::duel(int moveA, int moveB)
             {
                 this -> playerA.healthLoss(2);
                 this -> playerB.healthLoss(2);
-                this -> playerB.chargeLoss(3);
+                this -> playerB.chargeLoss(2);
             }
-            else this -> playerB.healthLoss(2);
+            else
+            {
+                this -> playerB.healthLoss(2);
+                this -> playerB.chargeLoss();
+            }
         }
         return output;
     }
@@ -166,7 +171,7 @@ int game::input(player A)
         else if(thong == "b") return BLOCK;
         else if(thong == "s")
         {
-            if(A.getMeter() > 2) return SPECIAL; //will change the number 2 to player.maxMeter and write it
+            if(A.getMeter() > 1) return SPECIAL; //will change the number 2 to player.maxMeter and write it
             else cout << "You don't have enough meter." << endl;
         }
         else cout << "Bad input." << endl;

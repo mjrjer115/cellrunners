@@ -8,18 +8,18 @@ using namespace std;
 int main()
 {
     enum{STR,DEF,INL,WIS,SPD};
-    player A(3,1);
-    player B(3,1);
-    A.setStat(3,STR);
+    player A(3,3);
+    player B(3,3);
+    A.setStat(0,STR);
     A.setStat(0,DEF);
-    A.setStat(1,INL);
+    A.setStat(0,INL);
     A.setStat(0,WIS);
-    A.setStat(1,SPD);
+    A.setStat(0,SPD);
     B.setStat(0,STR);
-    B.setStat(3,DEF);
+    B.setStat(0,DEF);
     B.setStat(0,INL);
-    B.setStat(1,WIS);
-    B.setStat(1,SPD);
+    B.setStat(0,WIS);
+    B.setStat(0,SPD);
 //  cout << A.getStat(2);
 //  cout << "player A hp " << A.getHealth() << endl;
 //  cout << "player B hp " << B.getHealth() << endl;
