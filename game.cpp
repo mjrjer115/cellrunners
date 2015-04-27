@@ -15,10 +15,10 @@ game::game(player A,player B)
     playerB = B;
 };
 
+// compares the player's actions, and edits the player's properties accordingly
+// prints if any crits occurred
 string game::duel(int moveA, int moveB)
     {
-//        this -> playerA.giveRandomNumber(rand()%1000);     // assign private random numbers to players 0 to 99
-//        this -> playerB.giveRandomNumber(rand()%1000);
         string output = "";
 
         if(moveB == CHARGE)
@@ -156,6 +156,7 @@ string game::duel(int moveA, int moveB)
         return output;
     }
 
+// takes input during the game for the player mentioned in the argument
 int game::input(player A)
 {
     string thong;     //shawn is gay so this is actually input
