@@ -9,6 +9,7 @@ using namespace std;
 enum {STR, DEF, INL, WIS, SPD};
 enum {CHARGE, ATTACK, BLOCK, SPECIAL};
 
+//sets the game up with two players, A and B
 game::game(player A,player B)
 {
     playerA = A;
@@ -189,7 +190,7 @@ void game::run() // loop until someone dies
     cout << "c - Charge: This action gives you one meter." << endl;
     cout << "a - Attack: This action consumes a meter to try and damage the opponent." << endl;
     cout << "b - Block: This action blocks attacks and gives you one meter on successful blocks, but..." << endl;
-    cout << "s - Special: This action breaks blocks, but can be countered by an attack and costs 3 meter." << endl << endl;
+    cout << "s - Special: This action breaks blocks, but can be countered by an attack and costs 2 meter." << endl << endl;
     cout << "Good luck!" << endl << endl;
     cout << "Player 1 health: " << playerA.getHealth() << endl;
     cout << "Player 1 meter:  " << playerA.getMeter() << endl;

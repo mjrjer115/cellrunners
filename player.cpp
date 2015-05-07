@@ -43,12 +43,13 @@ void player::healthLoss(int hp)
     hitpoints -= hp;
 };
 
-// returns meter of player
+// returns health of player
 int player::getHealth()
 {
     return hitpoints;
 };
 
+// returns meter of player
 int player::getMeter()
 {
     return meter;
