@@ -52,7 +52,7 @@ string game::duel(int moveA, int moveB)
             }
             else if(moveB == SPECIAL)
                 playerB.special(playerA,moveA);
-            else 
+            else
                 this -> playerB.healthLoss();
         }
 
@@ -68,9 +68,8 @@ string game::duel(int moveA, int moveB)
         }
         else if(moveA == SPECIAL)
         {
-            playerA.special(playerB,moveB)
-
-            else if(moveB == SPECIAL)
+            playerA.special(playerB,moveB);
+            if(moveB == SPECIAL)
                 playerB.special(playerA,moveA);
         }
         return output;

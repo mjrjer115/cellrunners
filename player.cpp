@@ -93,7 +93,7 @@ void player::special(player& enem, int move){
         default:
             cout<<"We broke it"<<endl;
     }
-        
+
 }
 
 
@@ -168,12 +168,12 @@ bool player::roll(int r, int index)
 //SPECIALS BEGIN HERE: BEWARE
 
 void player::RexRim(player& enem, int move){
-    this->chargeLoss(3);
+    this->chargeLoss(2);
     if(move = ATTACK)
         this->healthLoss(1);
-    elif(move = BLOCK)
-        enem.healthLoss(2);
+    else if(move = BLOCK)
+        enem.healthLoss(1);
     else
-        enem.healthLoss(3);
-    
+        enem.healthLoss(2);
+
 }
