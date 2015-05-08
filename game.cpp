@@ -25,39 +25,16 @@ string game::duel(int moveA, int moveB)
         if(moveB == CHARGE)
         {
             this -> playerB.chargeGain();
-            if (playerB.roll(rand()%1000,INL))
-            {
-                playerB.chargeGain();
-                output += "Player 2 obtained an extra charge!\n";
-            }
         }
         if(moveA == CHARGE)
         {
             this -> playerA.chargeGain();
-            if (playerA.roll(rand()%1000,INL))
-            {
-                playerA.chargeGain();
-                output += "Player 1 obtained an extra charge!\n";
-            }
             if(moveB == SPECIAL)
-                {
-                    this -> playerA.healthLoss(2);
-                    this -> playerB.chargeLoss(2);
-                    this -> playerA.chargeLoss();
-                }
+                playerB.special(playerA,moveA);
             if(moveB == ATTACK)
                 {
                     this -> playerB.chargeLoss();
-                    if (playerB.roll(rand()%1000,STR))
-                    {
-                        output += "Player 2 landed a critical hit!\n";
-                        playerA.healthLoss(2);
-                    }
-                    else if (playerA.roll(rand()%1000,DEF))
-                    {
-                        output += "Player 1 deflected Player 2's attack!\n";
-                    }
-                    else playerA.healthLoss();
+                    playerA.healthLoss();
                 }
         }
         else if(moveA == ATTACK)
@@ -66,47 +43,17 @@ string game::duel(int moveA, int moveB)
             if(moveB == ATTACK)
             {
                 this -> playerB.chargeLoss();
-                if(playerA.getStat(SPD) > playerB.getStat(SPD))
-                {
-                    output += "Player 1 is faster than Player 2!\n";
-                    playerB.healthLoss();
-                }
-                else if(playerB.getStat(SPD) > playerA.getStat(SPD))
-                {
-                    output += "Player 2 is faster than Player 1!\n";
-                    playerA.healthLoss();
-                }
-                else
-                {
-                    output += "Player 1 and 2 hit each other at the same speed!\n";
-                    playerA.healthLoss();
-                    playerB.healthLoss();
-                }
+                playerA.healthLoss();
+                playerB.healthLoss();
             }
             else if(moveB == BLOCK)
             {
                 this -> playerB.chargeGain();
-                if(playerB.roll(rand()%1000,WIS))
-                {
-                    output += "Player 2 gained two charges on block!\n";
-                    playerB.chargeGain();
-                }
             }
             else if(moveB == SPECIAL)
-            {
+                playerB.special(playerA,moveA);
+            else 
                 this -> playerB.healthLoss();
-                this -> playerB.chargeLoss(2);
-            }
-            else if(playerA.roll(rand()%1000,STR))
-            {
-                output += "Player 1 landed a critical hit!\n";
-                playerB.healthLoss(2);
-            }
-            else if(playerB.roll(rand()%1000,DEF))
-            {
-                output += "Player 2 deflected Player 1's attack!\n";
-            }
-            else this -> playerB.healthLoss();
         }
 
         else if(moveA == BLOCK)
@@ -115,44 +62,16 @@ string game::duel(int moveA, int moveB)
             {
                 this -> playerA.chargeGain();
                 this -> playerB.chargeLoss();
-                if(playerA.roll(rand()%1000,WIS))
-                {
-                    output += "Player 1 gained two charges on block!\n";
-                    playerA.chargeGain();
-                }
             }
             else if (moveB == SPECIAL)
-            {
-                this -> playerA.healthLoss();
-                this -> playerB.chargeLoss(2);
-            }
+                playerB.special(playerA,moveA);
         }
         else if(moveA == SPECIAL)
         {
-            this -> playerA.chargeLoss(2);
-
-            if(moveB == ATTACK)
-            {
-                this -> playerA.healthLoss();
-                this -> playerB.chargeLoss();
-            }
-
-            else if(moveB == BLOCK)
-            {
-                this -> playerB.healthLoss();
-            }
+            playerA.special(playerB,moveB)
 
             else if(moveB == SPECIAL)
-            {
-                this -> playerA.healthLoss(2);
-                this -> playerB.healthLoss(2);
-                this -> playerB.chargeLoss(2);
-            }
-            else
-            {
-                this -> playerB.healthLoss(2);
-                this -> playerB.chargeLoss();
-            }
+                playerB.special(playerA,moveA);
         }
         return output;
     }
