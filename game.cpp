@@ -16,11 +16,28 @@ game::game(player A,player B)
     playerB = B;
 };
 
+// 5-8-15: checks if players are stunned, then
 // compares the player's actions, and edits the player's properties accordingly
 // prints if any crits occurred
 string game::duel(int moveA, int moveB)
     {
         string output = "";
+        if(playerA.getStun()!=0) // if player 1 is stunned
+        {
+            playerB.action(playerA,moveB); //let player 2 perform his action
+            playerA.unStun(); // decrement stun after each duel
+            playerB.unStun();
+            return output; //and leave duel
+        }
+        else if (playerB.getStun()!=0) // if player 2 is stunned
+        {
+            playerA.action(playerB,moveA); //let player 1 perform his action
+            playerA.unStun(); // decrement stun after each duel
+            playerB.unStun();
+            return output; //and leave duel
+        }
+
+        //else, proceed normally
 
         if(moveB == CHARGE)
         {
@@ -72,6 +89,8 @@ string game::duel(int moveA, int moveB)
             if(moveB == SPECIAL)
                 playerB.special(playerA,moveA);
         }
+        playerA.unStun(); // decrement stun after each duel
+        playerB.unStun();
         return output;
     }
 
@@ -131,6 +150,15 @@ void game::run() // loop until someone dies
         cout << endl << endl << "OUTCOME OF ROUND " << ROUND << ":" << endl << endl;
         cout << "Player 1 action: " << moves[moveA] << endl;
         cout << "Player 2 action: " << moves[moveB] << endl << endl;
+
+        if(playerA.getStun()!=0)
+        {
+            cout << "Player 1 is stunned!" << endl;
+        }
+        else if (playerB.getStun()!=0)
+        {
+            cout << "Player 2 is stunned!" << endl;
+        }
 
         cout << "Player 1 health: " << playerA.getHealth() << endl;
         cout << "Player 1 meter:  " << playerA.getMeter() << endl;
