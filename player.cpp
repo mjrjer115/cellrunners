@@ -189,7 +189,7 @@ bool player::roll(int r, int index)
 // stun prevents a player from performing an action
 void player::stun(int turnsStunned)
 {
-    hitstun = turnsStunned;
+    hitstun = turnsStunned + 1;
 }
 
 // unStun decrements the hitstun counter after every round
@@ -260,13 +260,13 @@ void player::ShieldBash(player& enem, int move){
     else if(move == BLOCK)
     {
         enem.healthLoss();
-        enem.stun(2);
+        enem.stun(1);
     }
     else if(move == CHARGE)
     {
         enem.healthLoss();
         enem.chargeLoss();
-        enem.stun(3);
+        enem.stun(2);
     }
     else
         enem.healthLoss(1);
