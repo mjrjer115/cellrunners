@@ -7,7 +7,7 @@ using namespace std;
 
 
 enum {STR, DEF, INL, WIS, SPD};
-enum {CHARGE, ATTACK, BLOCK, SPECIAL};
+enum {CHARGE, ATTACK, BLOCK, SPECIAL, STUNNED};
 
 //sets the game up with two players, A and B
 game::game(player A,player B)
@@ -50,35 +50,38 @@ string game::duel(int moveA, int moveB)
                 playerB.special(playerA,moveA);
             if(moveB == ATTACK)
                 {
-                    this -> playerB.chargeLoss();
-                    playerA.healthLoss();
+                    //this -> playerB.chargeLoss();
+                    //playerA.healthLoss();
+                    playerB.attack(playerA,moveA);
                 }
         }
         else if(moveA == ATTACK)
         {
-            this -> playerA.chargeLoss();
+            //this -> playerA.chargeLoss();
             if(moveB == ATTACK)
             {
-                this -> playerB.chargeLoss();
-                playerA.healthLoss();
-                playerB.healthLoss();
+                //this -> playerB.chargeLoss();
+                //playerA.healthLoss();
+                //playerB.healthLoss();
+                playerA.attack(playerB,moveB);
+                playerB.attack(playerA,moveA);
             }
             else if(moveB == BLOCK)
             {
-                this -> playerB.chargeGain();
+                //this -> playerB.chargeGain();
+                playerA.attack(playerB,moveB);
             }
             else if(moveB == SPECIAL)
                 playerB.special(playerA,moveA);
             else
-                this -> playerB.healthLoss();
+                playerA.attack(playerB,moveB);
         }
 
         else if(moveA == BLOCK)
         {
             if(moveB == ATTACK)
             {
-                this -> playerA.chargeGain();
-                this -> playerB.chargeLoss();
+                playerB.attack(playerA,moveA);
             }
             else if (moveB == SPECIAL)
                 playerB.special(playerA,moveA);
@@ -104,13 +107,13 @@ int game::input(player A)
         if(thong == "c") return CHARGE;
         else if(thong == "a")
         {
-            if(A.getMeter() > 0) return ATTACK;
+            if(A.checkMeter(ATTACK)) return ATTACK;
             else cout << "You don't have enough meter." << endl;
         }
         else if(thong == "b") return BLOCK;
         else if(thong == "s")
         {
-            if(A.getMeter() > 1) return SPECIAL; //will change the number 2 to player.maxMeter and write it
+            if(A.checkMeter(SPECIAL)) return SPECIAL; //will change the number 2 to player.maxMeter and write it
             else cout << "You don't have enough meter." << endl;
         }
         else cout << "Bad input." << endl;
@@ -122,12 +125,12 @@ void game::run() // loop until someone dies
     srand(time(NULL));
     int moveA, moveB;
     int ROUND = 1;
-    string moves[4]={"Charge","Attack","Block","Special"};
-    cout << "Welcome!" << endl << endl;
+    string moves[5]={"Charge","Attack","Block","Special","Stunned!"};
+    cout << "FIGHT!" << endl << endl;
     cout << "c - Charge: This action gives you one meter." << endl;
     cout << "a - Attack: This action consumes a meter to try and damage the opponent." << endl;
     cout << "b - Block: This action blocks attacks and gives you one meter on successful blocks, but..." << endl;
-    cout << "s - Special: This action breaks blocks, but can be countered by an attack and costs 2 meter." << endl << endl;
+    cout << "s - Special: This action breaks blocks, but can be countered by an attack and costs more meter than an attack." << endl << endl;
     cout << "Good luck!" << endl << endl;
     cout << "Player 1 health: " << playerA.getHealth() << endl;
     cout << "Player 1 meter:  " << playerA.getMeter() << endl;
@@ -143,7 +146,7 @@ void game::run() // loop until someone dies
         else
         {
             cout << "Player 1, you're stunned!" << '\n' << "Press enter to continue" << endl;
-            moveA = CHARGE;
+            moveA = STUNNED;
             cin.ignore();
             cin.get();
         }
@@ -160,7 +163,7 @@ void game::run() // loop until someone dies
         else
         {
             cout << "Player 2, you're stunned!" << '\n' << "Press enter to continue" << endl;
-            moveB = CHARGE;
+            moveB = STUNNED;
             cin.ignore();
             cin.get();
         }

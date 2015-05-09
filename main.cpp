@@ -1,6 +1,7 @@
 //#include "CellRunners.h"
 #include "player.h"
 #include "game.h"
+#include "main.h"
 #include <ctime>
 #include <iostream>
 #include <cstdlib>
@@ -8,11 +9,21 @@ using namespace std;
 int main()
 {
     enum{STR,DEF,INL,WIS,SPD};
-    enum{NIL,EVE};
+    int playerAchar, playerBchar;
     player A(3,3);
-    player B(4,2);
-    A.setCharacter(NIL);
-    B.setCharacter(EVE);
+    player B(3,3);
+    cout << "1 - Nil" << endl;
+    cout << "2 - Eve" << endl;
+    cout << "3 - Lancer" << endl;
+    cout << "Player 1, choose your character:" << endl;
+    playerAchar = charselect();
+    cout << "1 - Nil" << endl;
+    cout << "2 - Eve" << endl;
+    cout << "3 - Lancer" << endl;
+    cout << "Player 2, choose your character:" << endl;
+    playerBchar = charselect();
+    A.setCharacter(playerAchar);
+    B.setCharacter(playerBchar);
 
     /*
     A.setStat(3,STR);

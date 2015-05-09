@@ -3,14 +3,13 @@
 #include <iostream>
 #include <string>
 #include "player.h"
-using namespace std;
 
 class game
 {
 private:
     player playerA;
     player playerB;
-    string duel(int moveA, int moveB);
+    std::string duel(int moveA, int moveB);
 public:
     game(player A,player B);
     void run();

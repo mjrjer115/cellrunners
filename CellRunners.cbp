@@ -25,6 +25,7 @@
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
 		<Extensions>

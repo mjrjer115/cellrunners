@@ -1,11 +1,10 @@
 #include "player.h"
 using namespace std;
 
-
 //enumerate stats
 enum{STR,DEF,INL,WIS,SPD};
+//enumerate actions
 enum{CHARGE, ATTACK, BLOCK, SPECIAL};
-enum{NIL,EVE};
 
 
 
@@ -40,6 +39,23 @@ player::player(int hp, int m)
 void player::setCharacter(int charac)
 {
     character=charac;
+    switch(this->character)
+    {
+    case NIL:
+        this -> hitpoints = 3;
+        this -> meter = 3;
+        break;
+    case EVE:
+        this -> hitpoints = 4;
+        this -> meter = 2;
+        break;
+    case LANCER:
+        this -> hitpoints = 4;
+        this -> meter = 3;
+        break;
+    default:
+        cout << "We broke it (setChar)" << endl;
+    }
 }
 
 
@@ -50,18 +66,17 @@ void player::chargeGain(int k)
     //if (meter < 5) meter += k;
     switch(this->character)
     {
-        case NIL:
-            {
-                if (meter < 5) meter += k;
-                break;
-            }
-        case EVE:
-            {
-                if (meter < 4) meter += k;
-                break;
-            }
-        default:
-            cout << "We broke it" << endl;
+    case NIL:
+        if (meter < 6) meter += k;
+        break;
+    case EVE:
+        if (meter < 4) meter += k;
+        break;
+    case LANCER:
+        if (meter < 6) meter += k;
+        break;
+    default:
+        cout << "We broke it worse (chargeGain)" << endl;
     }
 }
 
@@ -82,7 +97,7 @@ void player::healthLoss(int hp)
 }
 
 
-
+//causes the player to gain health... although we don't really use this
 void player::healthGain(int hp)
 {
     hitpoints += hp;
@@ -104,17 +119,100 @@ int player::getMeter()
     return meter;
 }
 
+// checks if the player has enough meter for the action
+bool player::checkMeter(int act)
+{
+    switch(this->character)
+    {
+    case NIL:
+        if(meter > 0 && act == ATTACK)
+            return true;
+        else if (meter > 1 && act == SPECIAL)
+            return true;
+        else return false;
+        break;
+    case EVE:
+        if(meter > 0 && act == ATTACK)
+            return true;
+        else if (meter > 1 && act == SPECIAL)
+            return true;
+        else return false;
+        break;
+    case LANCER:
+        if(meter > 1 && act == ATTACK)
+            return true;
+        else if (meter > 2 && act == SPECIAL)
+            return true;
+        else return false;
+        break;
+    default:
+        cout << "We fucked up (checkMeter)" << endl;
+        return true;
+    }
+}
+
+// associate attacks with characters
+void player::attack(player& enem, int move)
+{
+    switch(this->character)
+    {
+    case NIL:
+        if(move == BLOCK)
+        {
+            this -> chargeLoss();
+            enem.chargeGain();
+        }
+        else
+        {
+            this -> chargeLoss();
+            enem.healthLoss();
+        }
+        break;
+    case EVE:
+        if(move == BLOCK)
+        {
+            this -> chargeLoss();
+            enem.chargeGain();
+        }
+        else
+        {
+            this -> chargeLoss();
+            enem.healthLoss();
+        }
+        break;
+    case LANCER:
+        if(move == BLOCK)
+        {
+            this -> chargeLoss(2);
+            enem.chargeGain();
+        }
+        else
+        {
+            this -> chargeLoss(2);
+            enem.healthLoss(2);
+        }
+        break;
+    default:
+        cout << "We broke it hard (attack)" << endl;
+    }
+}
+
 // associate specials with characters
-void player::special(player& enem, int move){
-    switch(this->character){
-        case NIL:
-            RexRim(enem,move);
-            break;
-        case EVE:
-            ShieldBash(enem,move);
-            break;
-        default:
-            cout<<"We broke it"<<endl;
+void player::special(player& enem, int move)
+{
+    switch(this->character)
+    {
+    case NIL:
+        RexRim(enem,move);
+        break;
+    case EVE:
+        ShieldBash(enem,move);
+        break;
+    case LANCER:
+        Whirlwind(enem,move);
+        break;
+    default:
+        cout<<"We broked it (special)"<<endl;
     }
 
 }
@@ -271,4 +369,24 @@ void player::ShieldBash(player& enem, int move){
     }
     else
         enem.healthLoss(1);
+}
+
+void player::Whirlwind(player& enem, int move){
+    this->chargeLoss(3);
+    if(move == ATTACK)
+    {
+        this->healthLoss(2);
+        enem.chargeLoss();
+    }
+    else if(move == BLOCK)
+    {
+        enem.healthLoss(3);
+    }
+    else if(move == CHARGE)
+    {
+        enem.healthLoss(3);
+        enem.chargeLoss();
+    }
+    else
+        enem.healthLoss(3);
 }

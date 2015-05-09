@@ -3,7 +3,7 @@
 #include <iostream>
 
 const int NUM_STATS = 5;
-
+enum{NIL,EVE,LANCER};
 class player
 {
     private:
@@ -22,12 +22,14 @@ class player
         void healthLoss(int hp = 1);
         void healthGain(int hp = 1);
         void special(player& enem, int move);
+        void attack(player& enem, int move);
         void action(player& enem, int move);
         bool roll(int r, int index);
 //        void giveRandomNumber(int r = 50);
         void setStat(int x, int index);
         int getHealth();
         int getMeter();
+        bool checkMeter(int act = 1);
         void stun(int s = 1);
         int getStun();
         void unStun();
@@ -42,6 +44,7 @@ class player
         //specials
         void RexRim(player& enem, int move);
         void ShieldBash(player& enem, int move);
+        void Whirlwind(player& enem, int move);
 };
 
 #endif
