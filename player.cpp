@@ -44,7 +44,7 @@ void player::setCharacter(int charac)
 
 
 // causes the player to gain charge as long as it is < 0
-// 5-8-15: max meter is different per character
+// 5-8-15: max meter is different per character and can be changed here
 void player::chargeGain(int k)
 {
     //if (meter < 5) meter += k;
@@ -207,9 +207,10 @@ int player::getStun()
 
 // proceeds with an action for a player
 // "move" refers to the player's move -- not the enemies move
+// this is normally used only when the other player is stunned
 void player::action(player& enem, int move)
 {
-    if(move == ATTACK)
+    if(move == ATTACK)  //if implementing attack function, don't forget to put it here
     {
         enem.healthLoss();
         this->chargeLoss();

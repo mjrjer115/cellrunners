@@ -135,15 +135,35 @@ void game::run() // loop until someone dies
     cout << "Player 2 meter:  " << playerB.getMeter() << endl << endl;
     while(playerA.getHealth() > 0 && playerB.getHealth() > 0)
     {
-        cout << "Player 1, act" << endl;
-        moveA = input(playerA);
+        if(playerA.getStun()==0)
+        {
+            cout << "Player 1, act" << endl;
+            moveA = input(playerA);
+        }
+        else
+        {
+            cout << "Player 1, you're stunned!" << '\n' << "Press enter to continue" << endl;
+            moveA = CHARGE;
+            cin.ignore();
+            cin.get();
+        }
         cout << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' << '\n' ;
         cout << "Player 1 health: " << playerA.getHealth() << endl;
         cout << "Player 1 meter:  " << playerA.getMeter() << endl;
         cout << "Player 2 health: " << playerB.getHealth() << endl;
         cout << "Player 2 meter:  " << playerB.getMeter() << endl << endl;
-        cout << "Player 2, act" << endl;
-        moveB = input(playerB);
+        if(playerB.getStun()==0)
+        {
+            cout << "Player 2, act" << endl;
+            moveB = input(playerB);
+        }
+        else
+        {
+            cout << "Player 2, you're stunned!" << '\n' << "Press enter to continue" << endl;
+            moveB = CHARGE;
+            cin.ignore();
+            cin.get();
+        }
         string crit = duel(moveA,moveB);
         cout << endl << crit;
 
