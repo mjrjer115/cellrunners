@@ -3,7 +3,7 @@
 #include "player.h"
 int charselect()
 {
-    enum{NIL,EVE,LANCER};
+    enum{NIL,EVE,LANCER,SKELTO};
     std::string select;
     while(true)
     {
@@ -14,6 +14,8 @@ int charselect()
             return EVE;
         else if(select == "3")
             return LANCER;
+        else if(select == "4")
+            return SKELTO;
         else std::cout << "Bad input." << std::endl;
     }
 }

@@ -1,10 +1,12 @@
 #include "player.h"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 //enumerate stats
 enum{STR,DEF,INL,WIS,SPD};
 //enumerate actions
-enum{CHARGE, ATTACK, BLOCK, SPECIAL};
+enum{CHARGE, ATTACK, BLOCK, SPECIAL, STUNNED};
 
 
 
@@ -14,6 +16,7 @@ player::player(){
     this -> meter = 3;
     this -> character=0;
     this -> hitstun = 0;
+    this -> token = 0;
     for(int i = 0; i < NUM_STATS; i++)
     {
         stats[i]=0;
@@ -30,6 +33,7 @@ player::player(int hp, int m)
     this -> meter = m;
     this -> character = 0; // change once character select is implemented
     this -> hitstun = 0;
+    this -> token = 0;
     for(int i = 0; i < NUM_STATS; i++)
     {
         stats[i]=0;
@@ -42,16 +46,20 @@ void player::setCharacter(int charac)
     switch(this->character)
     {
     case NIL:
-        this -> hitpoints = 3;
+        this -> hitpoints = 300;
         this -> meter = 3;
         break;
     case EVE:
-        this -> hitpoints = 4;
+        this -> hitpoints = 400;
         this -> meter = 2;
         break;
     case LANCER:
-        this -> hitpoints = 4;
-        this -> meter = 3;
+        this -> hitpoints = 400;
+        this -> meter = 2;
+        break;
+    case SKELTO:
+        this -> hitpoints = 500;
+        this -> meter = 0;
         break;
     default:
         cout << "We broke it (setChar)" << endl;
@@ -74,6 +82,9 @@ void player::chargeGain(int k)
         break;
     case LANCER:
         if (meter < 6) meter += k;
+        break;
+    case SKELTO:
+        if (meter < 5) meter += k;
         break;
     default:
         cout << "We broke it worse (chargeGain)" << endl;
@@ -145,6 +156,13 @@ bool player::checkMeter(int act)
             return true;
         else return false;
         break;
+    case SKELTO:
+        if(meter > 0 && act == ATTACK)
+            return true;
+        else if (meter > 4 && act == SPECIAL)
+            return true;
+        else return false;
+        break;
     default:
         cout << "We fucked up (checkMeter)" << endl;
         return true;
@@ -165,7 +183,8 @@ void player::attack(player& enem, int move)
         else
         {
             this -> chargeLoss();
-            enem.healthLoss();
+            if (meter < 1) enem.healthLoss(150+(rand()%100));
+            else enem.healthLoss(75+(rand()%50));
         }
         break;
     case EVE:
@@ -177,7 +196,8 @@ void player::attack(player& enem, int move)
         else
         {
             this -> chargeLoss();
-            enem.healthLoss();
+            if (meter < 1) enem.healthLoss(150+(rand()%100));
+            else enem.healthLoss(80+(rand()%40));
         }
         break;
     case LANCER:
@@ -185,11 +205,31 @@ void player::attack(player& enem, int move)
         {
             this -> chargeLoss(2);
             enem.chargeGain();
+            stun(1);
         }
         else
         {
             this -> chargeLoss(2);
-            enem.healthLoss(2);
+            if (meter < 1) enem.healthLoss(250+rand()%100);
+            else enem.healthLoss(150+(rand()%100));
+        }
+        break;
+    case SKELTO:
+        if(move == BLOCK)
+        {
+            this -> chargeLoss();
+            enem.chargeGain();
+            if(token == 1) enem.healthLoss(50+rand()%100);
+        }
+        else
+        {
+            cout << "TOKEN = " << token << endl;
+            if(token == 0) chargeGain();
+            else if(token == 1)
+                {
+                    enem.healthLoss(200+rand()%50);
+                    chargeLoss();
+                }
         }
         break;
     default:
@@ -210,6 +250,9 @@ void player::special(player& enem, int move)
         break;
     case LANCER:
         Whirlwind(enem,move);
+        break;
+    case SKELTO:
+        Awakening(enem,move);
         break;
     default:
         cout<<"We broked it (special)"<<endl;
@@ -310,8 +353,7 @@ void player::action(player& enem, int move)
 {
     if(move == ATTACK)  //if implementing attack function, don't forget to put it here
     {
-        enem.healthLoss();
-        this->chargeLoss();
+        attack(enem, STUNNED);
     }
     else if(move == CHARGE)
     {
@@ -333,19 +375,23 @@ void player::RexRim(player& enem, int move){
     this->chargeLoss(2);
     if(move == ATTACK)
         {
-            this->healthLoss(1);
-            enem.chargeLoss();
+            enem.attack(*this, SPECIAL);
         }
     else if(move == BLOCK)
-        enem.healthLoss(1);
+        {
+            enem.healthLoss(100);
+        }
     else if(move == CHARGE)
         {
-            enem.healthLoss(2);
+            enem.healthLoss(200);
             enem.chargeLoss();
+            enem.stun(1);
         }
     else
-        enem.healthLoss(2);
-
+        {
+            enem.healthLoss(200);
+            enem.stun(1);
+        }
 }
 
 //ShieldBash is Eve's special
@@ -353,40 +399,48 @@ void player::ShieldBash(player& enem, int move){
     this->chargeLoss(2);
     if(move == ATTACK)
     {
-        this->healthLoss(1);
-        enem.chargeLoss();
+        enem.attack(*this, SPECIAL);
     }
     else if(move == BLOCK)
     {
-        enem.healthLoss();
+        enem.healthLoss(100);
         enem.stun(1);
     }
     else if(move == CHARGE)
     {
-        enem.healthLoss();
+        enem.healthLoss(100);
         enem.chargeLoss();
         enem.stun(2);
     }
     else
-        enem.healthLoss(1);
+        enem.healthLoss(100);
 }
 
 void player::Whirlwind(player& enem, int move){
     this->chargeLoss(3);
     if(move == ATTACK)
     {
-        this->healthLoss(2);
-        enem.chargeLoss();
+        enem.attack(*this,SPECIAL);
+        stun(1);
     }
     else if(move == BLOCK)
     {
-        enem.healthLoss(3);
+        enem.healthLoss(300);
+        enem.stun(1);
     }
     else if(move == CHARGE)
     {
-        enem.healthLoss(3);
+        enem.healthLoss(300);
         enem.chargeLoss();
+        enem.stun(1);
     }
     else
-        enem.healthLoss(3);
+        enem.healthLoss(300);
+}
+
+void player::Awakening(player& enem, int move)
+{
+    this->chargeLoss(3);
+    this->healthGain(200);
+    token = 1;
 }

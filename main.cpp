@@ -10,16 +10,18 @@ int main()
 {
     enum{STR,DEF,INL,WIS,SPD};
     int playerAchar, playerBchar;
-    player A(3,3);
-    player B(3,3);
+    player A(300,3);
+    player B(300,3);
     cout << "1 - Nil" << endl;
     cout << "2 - Eve" << endl;
     cout << "3 - Lancer" << endl;
+    cout << "4 - Skelto" << endl;
     cout << "Player 1, choose your character:" << endl;
     playerAchar = charselect();
     cout << "1 - Nil" << endl;
     cout << "2 - Eve" << endl;
     cout << "3 - Lancer" << endl;
+    cout << "4 - Skelto" << endl;
     cout << "Player 2, choose your character:" << endl;
     playerBchar = charselect();
     A.setCharacter(playerAchar);

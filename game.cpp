@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <conio.h>
 #include "player.h"
 #include "game.h"
 using namespace std;
@@ -100,9 +101,12 @@ string game::duel(int moveA, int moveB)
 // takes input during the game for the player mentioned in the argument
 int game::input(player A)
 {
+    // char thing;
     string thong;     //shawn is gay so this is actually input
     while(true)
     {
+        // thing = getch();
+        // thong = string(1,thing);
         cin >> thong;
         if(thong == "c") return CHARGE;
         else if(thong == "a")

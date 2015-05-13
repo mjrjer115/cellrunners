@@ -3,7 +3,7 @@
 #include <iostream>
 
 const int NUM_STATS = 5;
-enum{NIL,EVE,LANCER};
+enum{NIL,EVE,LANCER,SKELTO};
 class player
 {
     private:
@@ -11,6 +11,7 @@ class player
         int meter;
         int character;
         int hitstun;
+        int token;  //used for specific characters
 //        int randomNumber;
         int stats[NUM_STATS];
     public:
@@ -45,6 +46,7 @@ class player
         void RexRim(player& enem, int move);
         void ShieldBash(player& enem, int move);
         void Whirlwind(player& enem, int move);
+        void Awakening(player& enem, int move);
 };
 
 #endif
